@@ -1,0 +1,32 @@
+{% extends 'produk.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+        <h3>Tambah produk :</h3>
+      {% if pesan %}
+
+        <div class="alert alert-success">
+            {{pesan}}
+        </div>
+
+        {% endif %}
+
+        <form action="/tambah_produk/" method="post"enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            
+            <button class="btn btn-danger">Tambah Produk</button>
+            <a href="{% url 'produk' %}" class="btn btn-primary">Kembali</a>
+        </form>
+    </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}

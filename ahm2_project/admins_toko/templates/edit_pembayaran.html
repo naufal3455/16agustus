@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Edit Pembayaran</h1>
+<p class="mb-4">Halaman edit pembayaran</p>
+
+<!-- Form Edit Pembayaran -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Form Edit Pembayaran</h6>
+    </div>
+    <div class="card-body">
+        <form method="POST" action="{% url 'edit_pembayaran' pembayaran.id_pembayaran %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-group">
+                <label for="bukti_transfer">Bukti Transfer</label>
+                {% if pembayaran.bukti_transfer %}
+                    <img src="{{ pembayaran.bukti_transfer.url }}" alt="Bukti Transfer" width="100">
+                {% endif %}
+                <input type="file" class="form-control" id="bukti_transfer" name="bukti_transfer">
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="{% url 'pembayaran' %}" class="btn btn-primary">Kembali</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

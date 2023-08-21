@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Pembelian</h1>
+<p class="mb-4">Halaman data pembelian</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><a href="{% url 'tambah_pembelian' %}" class="btn btn-primary">Tambah Pembelian</a></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID pembelian</th>
+                        <th>Nama Produk</th>
+                        <th>Harga per dus</th>
+                        <th>Jumlah</th>
+                        <th>Total Harga</th>
+                        <th>Tanggal</th>
+                        <th>Catatan</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pembelian in pembelian %}
+                    <tr>
+                        <td>{{ pembelian.id_pembelian }}</td>
+                        <td>{{ pembelian.id_produk.nama_produk }}</td>
+                        <td>{{ pembelian.harga }}</td>
+                        <td>{{ pembelian.jumlah }}</td>
+                        <td>{{ pembelian.total }}</td>
+                        <td>{{ pembelian.tanggal }}</td>
+                        <td>{{ pembelian.catatan }}</td>
+
+
+                        <td>
+                            <a href="{% url 'edit_pembelian' pembelian.id_pembelian %}" class="btn btn-primary">Edit pembelian</a>
+                            <button data-toggle="modal" data-target="#hapus-{{ pembelian.id_pembelian }}" class="btn btn-danger">Hapus</button>
+                        </td>
+                        <div class="modal" id="hapus-{{ pembelian.id_pembelian }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title">
+                                            <h3>Hapus</h3>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus pembelian ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'hapus_pembelian' pembelian.id_pembelian %}" class="btn btn-danger">Hapus</a>
+                                        <button class="btn btn-primary" data-dismiss="modal">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Promosi</h1>
+<p class="mb-4">Halaman data promosi</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><a href="{% url 'tambah_promosi' %}" class="btn btn-primary">Tambah promosi</a></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID Promosi</th>
+                        <th>Nama Promosi</th>
+                        <th>Deskripsi</th>
+                        <th>Gambar</th>
+                        <th>Tanggal Mulai</th>
+                        <th>Tanggal Berakhir</th>
+                        <th>Kode Promosi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for promosi in promos %}
+                        <tr>
+                            <td>{{ promosi.id_promosi }}</td>
+                            <td>{{ promosi.nama_promosi }}</td>
+                            <td>{{ promosi.deskripsi | truncatewords:30 }}</td>
+                            <td>
+                                {% if promosi.gambar_promosi %}
+                                    <img src="{{ promosi.gambar_promosi.url }}" alt="{{ promosi.gambar_promosi }}" width="100">
+                                {% endif %}
+                            </td>
+                            <td>{{ promosi.tanggal_mulai }}</td>
+                            <td>{{ promosi.tanggal_berakhir }}</td>
+                            <td>{{ promosi.kode_promosi }}</td>
+                            <td>
+                                <a href="{% url 'edit_promosi' promosi.id_promosi %}" class="btn btn-primary">Edit</a>
+                                <button data-toggle="modal" data-target="#hapus-{{ promosi.id_promosi }}" class="btn btn-danger">Hapus</button>
+                            </td>
+                        </tr>
+                        <div class="modal" id="hapus-{{ promosi.id_promosi }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title">
+                                            <h3>Hapus</h3>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus promosi ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'hapus_promosi' promosi.id_promosi %}" class="btn btn-danger">Hapus</a>
+                                        <button class="btn btn-primary" data-dismiss="modal">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

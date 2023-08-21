@@ -1,0 +1,13 @@
+
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Pesanan Berhasil Dibuat</h1>
+<p class="mb-4">Anda akan kembali ke beranda dalam 3 detik.</p>
+
+<script>
+    setTimeout(function() {
+        window.location.href = "{% url 'beranda' %}";
+    }, 3000);
+</script>
+
+

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data laporan</h1>
+<p class="mb-4">Halaman kelola laporan</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID pembelian</th>
+                        <th>Nama Produk</th>
+                        <th>Harga per dus Pembelian</th>
+                        <th>Jumlah</th>
+                        <th>Total Harga Pembelian</th>
+                        <th>Stok</th>
+                        <th>Tanggal Pembelian</th>
+                        <th>Harga per dus Penjualan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pembelian in pembelian %}
+                    <tr>
+                        <td>{{ pembelian.id_pembelian }}</td>
+                        <td>{{ pembelian.id_produk.nama_produk }}</td>
+                        <td>{{ pembelian.harga }}</td>
+                        <td>{{ pembelian.jumlah }}</td>
+                        <td>{{ pembelian.total }}</td>
+                        <td>{{ pembelian.id_produk.stok }}</td>
+                        <td>{{ pembelian.tanggal }}</td>
+                        <td>{{ pembelian.id_produk.harga_idr }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Tombol Cetak Laporan -->
+<div class="text-center">
+    <a href="{% url 'laporan_toko_pdf' %}" class="btn btn-primary">Cetak Laporan</a>
+</div>
+
+{% endblock %}

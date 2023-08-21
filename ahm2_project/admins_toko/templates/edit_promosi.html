@@ -1,0 +1,39 @@
+{% extends 'data_promosi.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Edit Promosi</h4>
+
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {% if field.name == 'gambar_promosi' %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                            {% if promosi.gambar %}
+                                <img src="{{ promosi.gambar_promosi.url }}" alt="{{ promosi.nama_promosi }}" width="100">
+                            {% endif %}
+                        {% else %}
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <button class="btn btn-danger">Edit</button>
+                <a href="{% url 'data_promosi' %}" class="btn btn-primary">Kembali</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

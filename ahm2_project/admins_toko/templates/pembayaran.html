@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Kelola Pembayaran</h1>
+<p class="mb-4">Halaman kelola pembayaran</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+            <a href="{% url 'tambah_pembayaran' %}" class="btn btn-primary">Tambah Pembayaran</a>
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+            {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID Pembayaran</th>
+                        <th>ID Penjualan</th>
+                        <th>Tanggal Pembayaran</th>
+                        <th>Metode Pembayaran</th>
+                        <th>Bukti Transfer</th>
+                        <th>Status</th>
+                        <th>Total Harga</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pembayaran in pembayarans %}
+                    <tr>
+                        <td>{{ pembayaran.id_pembayaran }}</td>
+                        <td>{{ pembayaran.id_pembelian }}</td>
+                        <td>{{ pembayaran.tanggal_pembayaran }}</td>
+                        <td>{{ pembayaran.metode_pembayaran }}</td>
+                        <td>
+                        {% if pembayaran.bukti_transfer %}
+                            <img src="{{ pembayaran.bukti_transfer.url }}" alt="Bukti Transfer" width="100">
+                        {% endif %}
+                        </td>
+                        <td>{{ pembayaran.status }}</td>
+                        <td>{{ pembayaran.total }}</td>
+                        <td>
+                            <a href="{% url 'edit_pembayaran' pembayaran.id_pembayaran %}"
+                                class="btn btn-primary">Edit</a>
+                            <button data-toggle="modal" data-target="#hapus-{{ pembayaran.id_pembayaran }}"
+                                class="btn btn-danger">Hapus</button>
+                        </td>
+                        <div class="modal" id="hapus-{{ pembayaran.id_pembayaran }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title">
+                                            <h3>Hapus Pembayaran</h3>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus pembayaran ini?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'hapus_pembayaran' pembayaran.id_pembayaran %}"
+                                            class="btn btn-danger">Hapus</a>
+                                        <button class="btn btn-primary" data-dismiss="modal">Batal</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

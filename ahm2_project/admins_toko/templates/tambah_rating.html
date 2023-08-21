@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="h3 mb-2 text-gray-800">Tambah Penjualan</h1>
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <form method="POST" action="{% url 'tambah_rating' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Tambah Rating</button>
+            <a href="{% url 'kelola_rating' %}" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

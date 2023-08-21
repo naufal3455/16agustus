@@ -1,0 +1,266 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Toko AHM</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'assets/images/birny logo.png'%}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css'%}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="row align-items-center py-3 px-xl-5">
+        <div class="col-lg-3 d-none d-lg-block">
+            <a href="" class="text-decoration-none">
+                <h1 class="m-0 display-5 font-weight-semi-bold"><span
+                        class="text-primary font-weight-bold border px-3 mr-1">TOKO</span>AHM</h1>
+            </a>
+        </div>
+        <div class="col-lg-6 col-6 text-left">
+            <form action="{% url 'menu_produk' %}" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Cari produk">
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-transparent text-primary">
+                            <i class="fa fa-search"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-6 text-right">
+            <img src="{% static 'assets/images/birny logo.png'%}" style="float: left;width: 44px;height: 44px;">
+            <a href="/riwayat/" class="btn border">
+                <i class="fas fa-shopping-cart text-primary"></i>
+                <span class="badge">{{ pesanans_count }}</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Navigation Start -->
+    <div class="col-lg-9">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+            <a href="" class="text-decoration-none d-block d-lg-none">
+                <h1 class="m-0 display-5 font-weight-semi-bold"><span
+                        class="text-primary font-weight-bold border px-3 mr-1">Toko</span>AHM</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav mr-auto py-0">
+                    <a href="/beranda/" class="nav-item nav-link active">Beranda</a>
+                    <a href="/shop/" class="nav-item nav-link">Produk</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Halaman</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="/cart/" class="dropdown-item">Keranjang Produk</a>
+                            <a href="/checkout/" class="dropdown-item">Checkout</a>
+                            <a href="/riwayat/" class="dropdown-item">Riwayat</a>
+                        </div>
+                    </div>
+                    <a href="/contact/" class="nav-item nav-link">Promosi</a>
+                </div>
+                <div class="navbar-nav ml-auto py-0">
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navigation End -->
+
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Riwayat pemesanan</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="/beranda/">Beranda</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">riwayat pesanan</p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0"><a href="/submit_rating/">Rating</a></p>
+            </div>
+        </div>
+    </div>
+
+    <h2>Riwayat Pesanan</h2>
+
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Nama Produk</th>
+                <th>Harga</th>
+                <th>Jumlah</th>
+                <th>Pilihan</th>
+                <th>Subtotal</th>
+                <th>Total</th>
+                <th>Konfirmasi Pembayaran</th>
+                <th>Konfirmasi Pesanan</th>
+                <th>Bukti Pembayaran</th>
+                <th>Detail Pesanan</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pesanan in pesanans %}
+            <tr>
+                <td>
+                    {% with nama="" %}
+                    {% for pesanan_item in pesanan.pesanan_items.all %}
+                    {% if pesanan_item.produk %}
+                    {{ pesanan_item.produk.nama_produk}}
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                </td>
+                <td>
+                    {% with harga=0 %}
+                    {% for pesanan_item in pesanan.pesanan_items.all %}
+                    {% if pesanan_item.produk %}
+                    {{ pesanan_item.produk.harga_per_dus }}
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                </td>
+                <td>
+                    {% with jumlah=0 %}
+                    {% for pesanan_item in pesanan.pesanan_items.all %}
+                    {% if pesanan_item.jumlah %}
+                    {{ pesanan_item.jumlah }}
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                </td>
+                <td>
+                    {% with pilihan="" %}
+                    {% for pesanan_item in pesanan.pesanan_items.all %}
+                    {% if pesanan_item.pilihan %}
+                    {{ pesanan_item.pilihan }}
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                </td>
+                <td>
+                    {% with subtotal=0 %}
+                    {% for pesanan_item in pesanan.pesanan_items.all %}
+                    {% if pesanan_item.subtotal %}
+                    Rp.{{ pesanan_item.subtotal }}
+                    {% endif %}
+                    {% endfor %}
+                    {% endwith %}
+                </td>
+                <td>
+                    {{ pesanan.total }}
+                </td>
+                <td>
+                    {% if pesanan.konfirmasi_pembayaran == 'paid' %}
+                        <span class="badge badge-success">Paid</span>
+                    {% elif pesanan.konfirmasi_pembayaran == 'unpaid' %}
+                        <span class="badge badge-warning">Unpaid</span>
+                    {% elif pesanan.konfirmasi_pembayaran == 'failed' %}
+                        <span class="badge badge-danger">Failed</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if pesanan.konfirmasi_pesanan == 'DITERIMA' %}
+                        <span class="badge badge-success">DITERIMA</span>
+                    {% elif pesanan.konfirmasi_pesanan == 'BELUM DITERIMA' %}
+                        <span class="badge badge-warning">BELUM DITERIMA</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if pesanan.bukti_pembayaran %}
+                        <img src="{{pesanan.bukti_pembayaran.url }}" alt="Bukti Pembayaran" width="100">
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'edit_pemesanan' pesanan.id_pesanan %}" class="btn btn-primary">Detail Pesanan</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-secondary text-dark mt-5 pt-5">
+        <div class="row px-xl-5 pt-5">
+            <div class="col-lg-4 col-md-12 mb-5 pr-3 pr-xl-5">
+                <a href="" class="text-decoration-none">
+                    <h1 class="mb-4 display-5 font-weight-semi-bold"><span
+                            class="text-primary font-weight-bold border border-white px-3 mr-1">Toko</span>AHM</h1>
+                </a>
+                <p>Anda ingin membeli produk minuman yang kualitasnya bagus dan layanan yang terbaik? Ya ke Toko AHM ajaa. Gausah ragu kita sudah pasti terpecaya! selamat berbelanja di toko kami</p>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-primary mr-3"></i>Jl.Raya Cinangsi.Cibogo Subang
+                </p>
+                <p class="mb-2"><i class="fa fa-envelope text-primary mr-3"></i>Tokoahm@gamil.com</p>
+                <p class="mb-0"><i class="fa fa-phone-alt text-primary mr-3"></i>0881 1012 282</p>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-md-4 mb-5">
+                        <h5 class="font-weight-bold text-dark mb-4">Quick Links</h5>
+                        <div class="d-flex flex-column justify-content-start">
+                            <a class="text-dark mb-2" href="/loginn/"><i class="fa fa-angle-right mr-2"></i>Login</a>
+                            <a class="text-dark mb-2" href="index.html"><i class="fa fa-angle-right mr-2"></i>Beranda</a>
+                            <a class="text-dark mb-2" href="/shop/"><i class="fa fa-angle-right mr-2"></i>Produk</a>
+                            <a class="text-dark mb-2" href="/detail/"><i class="fa fa-angle-right mr-2"></i>Produk Detail</a>
+                            <a class="text-dark mb-2" href="/cart/"><i class="fa fa-angle-right mr-2"></i>Keranjang Produk</a>
+                            <a class="text-dark mb-2" href="/checkout/"><i class="fa fa-angle-right mr-2"></i>Checkout</a>
+                            <a class="text-dark" href="/contact/"><i class="fa fa-angle-right mr-2"></i>Promosi</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row border-top border-light mx-xl-5 py-4">
+            <div class="col-md-6 px-xl-0">
+                <p class="mb-md-0 text-center text-md-left text-dark">
+                    &copy; <a class="text-dark font-weight-semi-bold" href="#">Your Site Name</a>. All Rights Reserved.
+                    Designed
+                    by
+                    <a class="text-dark font-weight-semi-bold" href="https://htmlcodex.com">HTML Codex</a><br>
+                    Distributed By <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                </p>
+            </div>
+            <div class="col-md-6 px-xl-0 text-center text-md-right">
+                <img class="img-fluid" src="img/payments.png" alt="">
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'lib/easing/easing.min.js'%}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js'%}"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="{% static 'mail/jqBootstrapValidation.min.js'%}"></script>
+    <script src="{% static 'mail/contact.js'%}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'js/main.js'%}"></script>
+</body>
+
+</html>

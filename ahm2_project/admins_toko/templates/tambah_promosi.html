@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="h3 mb-2 text-gray-800">Tambah Promosi</h1>
+{% if pesan %}
+
+<div class="alert alert-success">
+    {{pesan}}
+</div>
+
+{% endif %}
+
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <form method="POST" action="{% url 'tambah_promosi' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Tambah Promosi</button>
+            <a href="{% url 'data_promosi' %}" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
+</div>
+
+{% endblock %}

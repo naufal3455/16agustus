@@ -1,0 +1,35 @@
+
+<form method="POST" action="{% url 'edit_keranjang' item.id %}">
+  {% csrf_token %}
+
+  <table>
+    <thead>
+      <tr>
+        <th>Produk</th>
+        <th>Pilihan</th>
+        <th>Jumlah</th>
+        <th>Harga</th>
+        <th>Subtotal</th>
+        <th>Hapus</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in keranjangitem %}
+      <tr>
+        <td>{{ item.produk }}</td>
+        <td>{{ item.pilihan }}</td>
+        <td>
+          <input type="number" name="jumlah_{{ item.id }}" value="{{ item.jumlah }}">
+        </td>
+        <td>{{ item.harga }}</td>
+        <td>{{ item.subtotal }}</td>
+        <td>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <input type="checkbox" name="hapus_{{ item.id }}">
+  <input type="submit" value="Simpan Perubahan">
+</form>

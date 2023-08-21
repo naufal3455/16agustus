@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Kategori</h1>
+<p class="mb-4">Halaman data kategori</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"><a href="{% url 'tambah_kategori' %}" class="btn btn-primary">Tambah kategori</a></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="kategoriTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id Kategori</th>
+                        <th>Nama Kategori</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for kategori in kategoris %}
+                    <tr>
+                        <td>{{ kategori.id_kategori }}</td>
+                        <td>{{ kategori.nama_kategori }}</td>
+                        <td>
+                            <a href="{% url 'edit_kategori' kategori.id_kategori %}" class="btn btn-primary">Edit kategori</a>
+                            <button data-toggle="modal" data-target="#hapus-{{ kategori.id_kategori }}" class="btn btn-danger">Hapus</button>
+                        </td>
+                        <div class="modal" id="hapus-{{ kategori.id_kategori }}">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <div class="modal-title">
+                                            <h3>Hapus</h3>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body">
+                                        Apakah Anda yakin ingin menghapus <strong>{{ kategori.nama_kategori }}</strong>?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{% url 'hapus_kategori' kategori.id_kategori %}" class="btn btn-danger">Hapus</a>
+                                        <button class="btn btn-primary" data-dismiss="modal">Tidak</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

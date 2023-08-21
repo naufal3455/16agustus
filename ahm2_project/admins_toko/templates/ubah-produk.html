@@ -1,0 +1,40 @@
+{% extends 'produk.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Edit Produk</h4>
+
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+
+            <form action="{% url 'edit_produk' produk.id_produk %}" method="post"enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {% if field.name == 'id_produk' %}
+                            <label for="{{ field.name }}">ID Produk:</label>
+                            <input type="text" id="{{ field.name }}" name="{{ field.name }}" value="{{ produk.id_produk }}" readonly class="form-control">
+                        {% else %}
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button class="btn btn-danger">Edit Produk</button>
+                <a href="{% url 'produk' %}" class="btn btn-primary">Kembali</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+{% endblock %}

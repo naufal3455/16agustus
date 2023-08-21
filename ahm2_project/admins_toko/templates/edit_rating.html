@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Edit Rating</h4>
+
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+
+            <form action="{% url 'edit_rating' rating.id_rating %}" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {% if field.name == 'id_rating' %}
+                            <label for="{{ field.name }}">ID Rating:</label>
+                            <input type="text" id="{{ field.name }}" name="{{ field.name }}" value="{{ rating.id_rating }}" readonly class="form-control">
+                        {% else %}
+                            <label for="{{ field.name }}">{{ field.label }}</label>
+                            {{ field }}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+
+                <button class="btn btn-danger">Edit</button>
+                <a href="{% url 'kelola_rating' %}" class="btn btn-primary">Kembali</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

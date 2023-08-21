@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Edit Kategori</h1>
+
+<form method="POST" action="{% url 'edit_kategori' id_kategori %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn btn-danger">Edit kategori</button>
+    <a href="{% url 'kategori' %}" class="btn btn-primary">Kembali</a>
+</form>
+
+{% endblock %}

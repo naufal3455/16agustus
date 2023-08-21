@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Kelola Jasa Rating</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+            {% if message %}
+            <div class="alert alert-success">{{ message }}</div>
+            {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for rating in ratings %}
+                    <tr>
+                        <td>{{ rating.user }}</td>
+                        <td>{{ rating.rating }}</td>   
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Menampilkan rata-rata rating -->
+<div class="card shadow mb-4">
+    <div class="card-body">
+        <h4>Rata-rata Rating: {{ average_rating }}</h4>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">Data Pemesanan</h1>
+<p class="mb-4">Halaman data Pemesanan</p>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            {% for message in messages %}
+                {% if message %}
+                    <div class="alert alert-success">{{ message }}</div>
+                {% endif %}
+            {% endfor %}
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Id Pesanan</th>
+                        <th>Nama Pembeli</th>
+                        <th>No Telepon</th>
+                        <th>Alamat Pengiriman</th>
+                        <th>Konfirmasi Pembayaran</th>
+                        <th>Nama Produk</th>
+                        <th>Harga</th>
+                        <th>Jumlah</th>
+                        <th>Pilihan</th>
+                        <th>Subtotal</th>
+                        <th>Total</th>
+                        <th>Bukti Pembayaran</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pesanan in pesanans %}
+                    <tr>
+                    
+                        <td>{{ pesanan.id_pesanan }}</td>
+                        <td>{{ pesanan.nama_pembeli }}</td>
+                        <td>{{ pesanan.no_telepon }}</td>
+                        <td>{{ pesanan.alamat_pengiriman }}</td>
+                        <td>
+                            {% if pesanan.konfirmasi_pembayaran == 'paid' %}
+                                <span class="badge badge-success">Paid</span>
+                            {% elif pesanan.konfirmasi_pembayaran == 'unpaid' %}
+                                <span class="badge badge-warning">Unpaid</span>
+                            {% elif pesanan.konfirmasi_pembayaran == 'failed' %}
+                                <span class="badge badge-danger">Failed</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% with nama="" %}
+                                {% for pesanan_item in pesanan.pesanan_items.all %}
+                                    {% if pesanan_item.produk %}
+                                        {{ pesanan_item.produk.nama_produk}}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </td>
+                        <td>
+                            {% with harga=0 %}
+                                {% for pesanan_item in pesanan.pesanan_items.all %}
+                                    {% if pesanan_item.produk %}
+                                        {{ pesanan_item.produk.harga_per_dus }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </td>
+                        <td>
+                        {% with jumlah=0 %}
+                                {% for pesanan_item in pesanan.pesanan_items.all %}
+                                    {% if pesanan_item.jumlah %}
+                                        {{ pesanan_item.jumlah }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </td>
+                        <td>
+                            {% with pilihan="" %}
+                                    {% for pesanan_item in pesanan.pesanan_items.all %}
+                                        {% if pesanan_item.pilihan %}
+                                            {{ pesanan_item.pilihan }}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </td>
+                        <td>
+                            {% with subtotal=0 %}
+                                {% for pesanan_item in pesanan.pesanan_items.all %}
+                                    {% if pesanan_item.subtotal %}
+                                        Rp.{{ pesanan_item.subtotal }}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endwith %}
+                        </td>
+                        <td>
+                            {{ pesanan.total }}
+                        </td>
+                        <td>
+                            {% if pesanan.bukti_pembayaran %}
+                        <img src="{{pesanan.bukti_pembayaran.url }}" alt="Bukti Pembayaran" width="100">
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'edit_pesanan' pesanan.id_pesanan %}" class="btn btn-primary">Detail Pesanan</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
